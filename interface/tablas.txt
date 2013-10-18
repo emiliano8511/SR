@@ -1,0 +1,120 @@
+CREATE TABLE actividades
+(
+  id serial NOT NULL,
+  nombre character varying,
+  id_tipo_actividad integer
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE actividades
+  OWNER TO postgres;
+
+
+ 
+CREATE TABLE detalle_actividad_lugar
+(
+  id_lugar serial NOT NULL,
+  id_actividad integer
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE detalle_actividad_lugar
+  OWNER TO postgres;
+  
+  
+CREATE TABLE detalle_historial
+(
+  id_historial integer,
+  id_actividad integer,
+  calificacion integer
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE detalle_historial
+  OWNER TO postgres;
+  
+
+CREATE TABLE detalle_preferencias_usuario
+(
+  id_usuario integer,
+  id_preferencia integer,
+  estado character(1)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE detalle_preferencias_usuario
+  OWNER TO postgres;
+
+  
+  CREATE TABLE historial
+(
+  id_usuario integer,
+  id_lugar integer,
+  fecha date,
+  id serial NOT NULL
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE historial
+  OWNER TO postgres;
+
+  
+ CREATE TABLE lugares
+(
+  id_lugar serial NOT NULL,
+  id_pais integer,
+  nombre_lugar character varying,
+  "descripcion:lugar" character varying
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE lugares
+  OWNER TO postgres;
+
+  
+  CREATE TABLE paises
+(
+  id serial NOT NULL,
+  nomre_pais character varying,
+  descripcion character varying
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE paises
+  OWNER TO postgres;
+
+  
+  CREATE TABLE tipo_actividad
+(
+  id_tipo serial NOT NULL,
+  nombre_tipo character varying
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE tipo_actividad
+  OWNER TO postgres;
+
+  
+  CREATE TABLE usuarios
+(
+  nombre character varying,
+  apellido character varying,
+  correo character varying,
+  esadmin boolean,
+  fecha_nacimiento date,
+  id serial NOT NULL,
+  pass character varying
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE usuarios
+  OWNER TO postgres;

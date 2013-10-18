@@ -3,6 +3,7 @@
 <head>                
         <script src="../js/manejo_usuario.js" type="text/javascript"></script>      
 		<script src="../js/val_mail.js" type="text/javascript"></script>      
+		<script src="../js/manejo_actividades.js" type="text/javascript"></script>
 </head>
 <body>
 <div id='crear_usuario' style="display: none;">
@@ -36,7 +37,7 @@
 </div>
 
 
-<div id='logear_usuario' style="display: block;">
+<div id='logear_usuario' style="display: none;">
 	<table>	
 	<tr>
 		<td>Correo</td>
@@ -48,6 +49,11 @@
 	</tr>
 	</table>
 	<input type='button' value='Logear' onclick="logear_usuario();"/></br>
+</div>
+
+
+<div id="mostrar_actividades" style="display: block;">
+
 </div>
 
 </body>
