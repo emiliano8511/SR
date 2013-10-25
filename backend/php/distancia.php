@@ -38,6 +38,7 @@ while ($line = pg_fetch_array($result, null, PGSQL_ASSOC))
 }                		
 pg_free_result($consulta);                
 
+//Calcula la distancia entre items
 $i = 1;
 while ($i < $n_actividades + 1)
 {
@@ -56,7 +57,7 @@ while ($i < $n_actividades + 1)
 	}	
 	$i = $i + 1;
 }
-
+//Imprime tabla con distancia entre items, considerando los lugares para el calculo de dicha distancia
 $i = 1;
 echo 'distancia entre items';
 echo '<table border = 1>';
@@ -102,11 +103,11 @@ $result = pg_query($consulta) or die ('Consulta fallida: ' . pg_last_error());
 while ($line = pg_fetch_array($result, null, PGSQL_ASSOC))
 {
 	$usuariosxitems[$line['id_usuario']][$line['id_preferencia']] = 1;		
-	$itemsxusuarios[$line['id_preferencia']][$line['id_usuario']] = 1;
-	echo $usuariosxitems[$line['id_usuario']][$line['id_preferencia']];		
+	$itemsxusuarios[$line['id_preferencia']][$line['id_usuario']] = 1;	
 }                		
 pg_free_result($consulta);                
 
+//Calcula la distancia entre usuarios
 $i = 1;
 while ($i < $n_usuarios + 1)
 {
@@ -126,6 +127,7 @@ while ($i < $n_usuarios + 1)
 	$i = $i + 1;
 }
 
+//imprime tabla distancia entre usuarios, considerando las preferencias del usuario para ello
 $i = 1;
 echo 'distancia entre usuarios';
 echo '<table border = 1>';
@@ -143,8 +145,4 @@ while ($i < $n_usuarios + 1)
 	$i = $i + 1;
 }
 echo '</table>';
-
-
-
-
 ?>
