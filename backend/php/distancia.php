@@ -2,6 +2,9 @@
 include 'connection.php';
 session_start();
 
+//Id de quien se busca
+$buscado = 3;
+
 //Distancia entre items
 $consulta="SELECT id,nombre FROM actividades";
 $idioma[0] = '';	
@@ -63,7 +66,7 @@ while ($i < $n_actividades + 1)
 		$distancia = 0;
 		while ($j2 < $n_lugares + 1)
 		{
-			$distancia_items[1][0][$j] = $items[$j];	
+			$distancia_items[1][0][$j] = $j;	
 			$distancia = $distancia + pow($itemsxlugares[$i][$j2] - $lugaresxitems[$j2][$j],2);
 			$j2 = $j2 + 1;
 		}
@@ -92,122 +95,6 @@ while ($i < $n_actividades + 1)
 }
 echo '</table>';
 
-//Emparejador items
-
-$n = 1;
-$min = 20;
-$minx=1;
-$miny=1;
-$i = 1;
-while ($i < $n_actividades + 1)
-{	
-	$j = 1;
-	while ($j < $n_actividades + 1)
-	{	
-		if ($min > $distancia_items[$n][$i][$j] && $distancia_items[$n][$i][$j] != 0)
-		{
-			$min = $distancia_items[$n][$i][$j];
-			$minx=$i;
-			$miny=$j;
-		}
-		$j = $j + 1;
-	}	
-	$i = $i + 1;
-}
-
-echo 'min '.$min.' '.$minx.' '.$miny.'</br></br>';
-
-$i = 1;
-while ($i < $n_actividades + 1)
-{
-	if ($distancia_items[$n][$minx][$i] < $distancia_items[$n][$miny][$i])
-	{
-		$mini[$i] = $distancia_items[$n][$minx][$i];
-	}
-	else
-	{		
-		$mini[$i] = $distancia_items[$n][$miny][$i];	
-	}	
-	echo '</br>'.$mini[$i];
-	$i = $i + 1;
-}
-
-/* trabajar aca */
-$i = 1;
-$x = 0;
-if ($i == $minx)
-	{		
-		$x = 1;
-	}
-while ($i < $n_actividades + 1)
-{	
-	$y = 0;
-	$j = 1;
-	if ($j == $miny)
-	{		
-		$y = 1;
-	}
-	while ($j < $n_actividades + 1)
-	{
-		if ($i == $minx && $j == $miny)
-		{
-			$distancia_items[$n+1][$i][$j] = $mini[$i];			
-		}
-		else
-		{
-			$distancia_items[$n+1][$i][$j] = $distancia_items[$n][$i+$x][$j+$y];		
-		}
-		
-		$j = $j + 1;
-		if ($j == $miny)
-		{			
-			$y = 1;
-		}
-	}		
-	$i = $i + 1;
-	if ($i == $minx)
-	{		
-		$x = 1;
-	}	
-}
-
-
-
-
-
-
-
-
-
-
-
-
-echo '</br>'."Segunda vuelta";
-
-$i = 0;
-echo 'distancia entre items';
-echo '<table border = 1>';
-while ($i < $n_actividades + 1)
-{
-	echo '<tr>';
-	$j = 0;
-	while ($j < $n_actividades + 1)
-	{	echo '<td>';
-		echo $distancia_items[2][$i][$j].' ';
-		echo '</td>';
-		$j = $j + 1;
-	}
-	echo '</tr>';
-	$i = $i + 1;
-}
-echo '</table>';
-
-
-while ($n < $n_actividades + 1)
-{
-	echo $n;
-	$n = $n + 1;
-}
 
 
 
@@ -281,7 +168,7 @@ while ($i < $n_usuarios + 1)
 	$j = 1;
 	while ($j < $n_usuarios + 1)
 	{
-		$distancia_usuarios[1][0][$j] = $usuarios_nombre[$j];
+		$distancia_usuarios[1][0][$j] = $j;
 		$j2 = 1;
 		$distancia = 0;
 		while ($j2 < $n_actividades + 1)
@@ -314,6 +201,135 @@ while ($i < $n_usuarios + 1)
 	$i = $i + 1;
 }
 echo '</table>';
+
+
+//Emparejador items
+
+$n = 1;
+$encontrado = 0;
+
+while ($n < $n_usuarios )
+{
+	$min = 20;
+	$minx=1;
+	$miny=1;
+	$i = 1;
+	while ($i < $n_usuarios + 1)
+	{	
+		$j = 1;
+		while ($j < $n_usuarios + 1)
+		{	
+			if ($min > $distancia_usuarios[$n][$i][$j] && $distancia_usuarios[$n][$i][$j] != 0)
+			{
+				$min = $distancia_usuarios[$n][$i][$j];
+				$minx=$i;
+				$miny=$j;
+			}
+			$j = $j + 1;
+		}	
+		$i = $i + 1;
+	}
+		
+	echo 'min '.$min.' '.$minx.' '.$miny.'</br></br>';
+
+	$i = 1;
+	while ($i < $n_usuarios + 1)
+	{
+		if ($distancia_usuarios[$n][$minx][$i] < $distancia_usuarios[$n][$miny][$i])
+		{
+			$mini[$i] = $distancia_usuarios[$n][$minx][$i];
+		}
+		else
+		{		
+			$mini[$i] = $distancia_usuarios[$n][$miny][$i];	
+		}	
+		echo '</br>'.$mini[$i];
+		$i = $i + 1;
+	}
+
+	/* trabajar aca */
+
+	$x = 1;
+	$i = 1;
+	while ($x < $n_usuarios + 1)
+	{
+		
+		$distancia_usuarios[$n+1][0][$x] = $distancia_usuarios[$n][0][$x];			
+		$y = 1;
+		if ($i == 1)
+		{
+			if ($distancia_usuarios[$n][0][$x] != $distancia_usuarios[$n][0][$miny])
+			{				
+				$distancia_usuarios[$n+1][0][$x] = $distancia_usuarios[$n][0][$x].','.$distancia_usuarios[$n][0][$miny];			
+				$distancia_usuarios[$n][0][$miny] = '';
+				$i = 2;
+				$a = $distancia_usuarios[$n+1][0][$x];
+			}
+			else
+				echo '</br>ERROR</br>';
+		}
+		while ($y < $n_usuarios + 1)
+		{					
+			if ($x == $minx)
+			{							
+				$distancia_usuarios[$n+1][$y][$x] = $mini[$y];			
+			}
+			else
+			{
+				if ($x == $miny)
+				{
+					$distancia_usuarios[$n+1][$y][$x] = 'x';			
+				}
+				else
+				{
+					$distancia_usuarios[$n+1][$y][$x] = $distancia_usuarios[$n][$y][$x];			
+				}			
+			}		
+			if ($y == $miny)
+			{
+				$distancia_usuarios[$n+1][$y][$x] = 'x';			
+			}
+			$y = $y + 1;
+		}
+		$x = $x + 1;
+	}
+	
+	echo '</br>vuelta = '.($n+1).'</br>';
+
+	$i = 0;
+	echo 'distancia entre usuarios';
+	echo '<table border = 1>';
+	while ($i < $n_usuarios + 1)
+	{
+		echo '<tr>';
+		$j = 0;
+		while ($j < $n_usuarios + 1)
+		{	echo '<td>';
+			echo $distancia_usuarios[$n+1][$i][$j].' ';
+			echo '</td>';
+			$j = $j + 1;
+		}
+		echo '</tr>';
+		$i = $i + 1;
+	}
+	echo '</table>';	
+	
+	if (($buscado == $minx || $buscado == $miny) && $encontrado == 0)
+	{
+		$agrupamiento = $a;
+		$n_encontrado = $n;
+		$encontrado = 1;
+	}	
+	
+	$n = $n+1;	
+}
+
+echo '</br>Agrupamineto = '.$agrupamiento.'</br>n encontrado = '.$n_encontrado.'</br>';
+
+//Trabajar de aca en adelante
+//Se debe trabajar con la variable agrupamiento, quitando posibles valores repetidos, me dio lata corregir ese error, pasara inadvertido,
+//se debe eliminar de la variable el valor encontrado, el cual pertenecera a ella
+
 
 
 ?>
