@@ -6,8 +6,9 @@ session_start();
 $buscado = 3;
 
 //Distancia entre items
+//Usa para empezar con el select, remplaza tabla actividades por lugar, y los campos respectivos, en la linea 14 remplazar a la derecha del igual por 0
+//Crea un arreglo por lugar, donde se guardara numericamente la cantidad k el lugar a sido de agrado por cada uno de los usuarios.
 $consulta="SELECT id,nombre FROM actividades";
-$idioma[0] = '';	
 $result = pg_query($consulta) or die ('Consulta fallida: ' . pg_last_error());
 while ($line = pg_fetch_array($result, null, PGSQL_ASSOC))
 {
