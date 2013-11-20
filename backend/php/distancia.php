@@ -371,5 +371,11 @@ pg_free_result($consulta);
 
 //ordenar lugar de mayor a menor, los primeros valores son las recomendaciones para el usuario
 
+$i = 1;
+while ($i < $n_lugares + 1)
+{
+	echo '</br>'.$nombre_lugar[$i].' = '.$lugar[$i];
+	$i = $i+1;
+}
 
 ?>
