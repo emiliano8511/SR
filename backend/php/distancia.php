@@ -332,5 +332,44 @@ echo '</br>Agrupamineto = '.$agrupamiento.'</br>n encontrado = '.$n_encontrado.'
 //se debe eliminar de la variable el valor encontrado, el cual pertenecera a ella
 
 
+$consulta="SELECT id_lugar,nombre_lugar FROM lugares";
+$result = pg_query($consulta) or die ('Consulta fallida: ' . pg_last_error());
+while ($line = pg_fetch_array($result, null, PGSQL_ASSOC))
+{
+	$lugar[$line["id_lugar"]] = 0;				
+	$nombre_lugar[$line["id_lugar"]] = $line["nombre_lugar"];				
+}		
+pg_free_result($consulta);	
+
+
+$datos = explode(",",$agrupamiento);
+$n = count($datos);
+
+
+$i = 0;
+
+while ($i < $n)
+{	
+	$consulta="SELECT megusta,id_lugar FROM historial where id_usuario ='".$datos[$i]."'";
+	$result = pg_query($consulta) or die ('Consulta fallida: ' . pg_last_error());
+	while ($line = pg_fetch_array($result, null, PGSQL_ASSOC))
+	{
+		$lugar[$line["id_lugar"]] = $lugar[$line["id_lugar"]] + $line["megusta"];				
+	}		
+	pg_free_result($consulta);			
+	$i = $i+1;
+}
+//Descontar lo del usuario buscado
+
+$consulta="SELECT megusta,id_lugar FROM historial where id_usuario ='".$buscado."'";
+$result = pg_query($consulta) or die ('Consulta fallida: ' . pg_last_error());
+while ($line = pg_fetch_array($result, null, PGSQL_ASSOC))
+{
+	$lugar[$line["id_lugar"]] = 0;				
+}		
+pg_free_result($consulta);			
+
+//ordenar lugar de mayor a menor, los primeros valores son las recomendaciones para el usuario
+
 
 ?>
